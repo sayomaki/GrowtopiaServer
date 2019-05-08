@@ -89,6 +89,33 @@ static int peerSendGP (lua_State *L) {
     p->len,
     ENET_PACKET_FLAG_RELIABLE);
   enet_peer_send(peer, 0, packet);
+
+  return 0;
+}
+
+static int EXsendWorldOffers (lua_State *L) {
+  int num = lua_gettop(L);
+  ENetPeer* peer = (ENetPeer*) lua_touserdata(L, 1);
+  
+  if (!((PlayerInfo*)(peer->data))->isIn) return 0;
+  vector<WorldInfo> worlds = worldDB.getRandomWorlds();
+  string worldOffers = "default|";
+  if (worlds.size() > 0) {
+    worldOffers += worlds[0].name;
+  }
+  
+  worldOffers += "\nadd_button|Showing: `wWorlds``|_catselect_|0.6|3529161471|\n";
+  for (int i = 0; i < worlds.size(); i++) {
+    worldOffers += "add_floater|"+worlds[i].name+"|"+std::to_string(getPlayersCountInWorld(worlds[i].name))+"|0.55|3529161471\n";
+  }
+  GamePacket p3 = packetEnd(appendString(appendString(createPacket(), "OnRequestWorldSelectMenu"), worldOffers));
+  ENetPacket * packet3 = enet_packet_create(p3.data,
+    p3.len,
+    ENET_PACKET_FLAG_RELIABLE);
+  enet_peer_send(peer, 0, packet3);
+  delete p3.data;
+
+  return 0;
 }
 
 void initLua () {
@@ -103,6 +130,7 @@ void initLua () {
   lua_register(L, "appendString", GPappendStr);
   lua_register(L, "packetEnd", GPpacketEnd);
   lua_register(L, "sendGamePacket", peerSendGP);
+  lua_register(L, "sendWorldOffers", EXsendWorldOffers);
 }
 
 void preInitHandler (lua_State *L) {
