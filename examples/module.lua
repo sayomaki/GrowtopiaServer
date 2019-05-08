@@ -8,6 +8,8 @@ end
 
 function peerConnect (peer)
   print('[LOG] Connected:', peer)
+  gp = packetEnd(appendString(appendString(createPacket(), 'OnConsoleMessage'), 'Welcome to the server!'))
+  sendGamePacket(peer, gp)
   return false
 end
 
