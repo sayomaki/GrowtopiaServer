@@ -2,6 +2,10 @@ function preInit ()
   print('[LOG] Module v1.0.0 loaded.')
 end
 
+function postInit()
+  print('[LOG] Server is ready.')
+end
+
 function peerConnect (peer)
   print('[LOG] Connected:', peer)
   return false

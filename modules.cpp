@@ -32,6 +32,12 @@ void preInitHandler (lua_State *L) {
   lua_settop(L, 0);
 }
 
+void postInitHandler (lua_State *L) {
+  lua_getglobal(L, "postInit");
+  lua_call(L, 0, 0);
+  lua_settop(L, 0);
+}
+
 bool peerConnectHandler (lua_State* L, ENetPeer* peer) {
   lua_getglobal(L, "peerConnect");
   lua_pushlightuserdata(L, (void*)peer);

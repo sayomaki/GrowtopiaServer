@@ -2113,6 +2113,8 @@ int main(int argc, char* argv[])
 	buildItemsDatabase();
 	cout << "Database is built!" << endl;
 
+	postInitHandler(L);
+
 	ENetEvent event;
 	/* Wait up to 1000 milliseconds for an event. */
 	while (true)
