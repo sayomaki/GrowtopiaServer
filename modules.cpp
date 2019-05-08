@@ -118,6 +118,18 @@ static int EXsendWorldOffers (lua_State *L) {
   return 0;
 }
 
+static int getServerHash (lua_State *L) {
+  int num = lua_gettop(L);
+  lua_pushnumber(L, serverHash);
+  return 1;
+}
+
+static int setServerHash (lua_State *L) {
+  int num = lua_gettop(L);
+  serverHash = (int)lua_tonumber(L, -1);
+  return 0;
+}
+
 void initLua () {
   L = luaL_newstate();
   luaL_openlibs(L);
@@ -131,6 +143,8 @@ void initLua () {
   lua_register(L, "packetEnd", GPpacketEnd);
   lua_register(L, "sendGamePacket", peerSendGP);
   lua_register(L, "sendWorldOffers", EXsendWorldOffers);
+  lua_register(L, "getServerHash", getServerHash);
+  lua_register(L, "setServerHash", setServerHash);
 }
 
 void preInitHandler (lua_State *L) {

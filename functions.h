@@ -21,6 +21,8 @@ extern int cId;
 extern BYTE* itemsDat;
 extern int itemsDatSize;
 
+extern int serverHash;
+
 string hashPassword(string password);
 
 bool verifyPassword(string password, string hash);

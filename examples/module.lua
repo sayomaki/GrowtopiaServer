@@ -1,5 +1,6 @@
 function preInit ()
   print('[LOG] Module v1.0.0 loaded.')
+  print('[LOG] Server hash is:', getServerHash())
 end
 
 function postInit()
